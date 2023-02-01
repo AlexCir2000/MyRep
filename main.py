@@ -1,10 +1,2 @@
-print('Hello? World')
-a = 2
-a += 2
-
-
-def rename():
-    print(a)
-
-
-rename()
+from Captcha import get_captcha
+a,b = get_captcha(12)
