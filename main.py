@@ -1,2 +1,4 @@
 from Captcha import get_captcha
-a,b = get_captcha(12)
+
+a, b = get_captcha(12)
+print(a, b)
