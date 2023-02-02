@@ -3,22 +3,22 @@ from tkinter import *
 from PIL import Image, ImageTk
 from Captcha import get_captcha
 
-root = tkinter.Tk()
-# frame = tkinter.Frame(root)
-# frame.pack()
-length = 10
-photo = {}
-for j in range(1,6,2):
-    for i in range(1,10):
-        a,b = get_captcha(length)
-        lbl = Label(root, text=b, font=("Arial Bold", 20))
-        lbl.grid(row=i, column=j)
-        canvas = tkinter.Canvas(root, width=length*25, height=90)
-        canvas.grid(row=i, column=j+1)
-        img = Image.open('demo.png')
-        photo[i,j] = ImageTk.PhotoImage(img)
-        img = canvas.create_image(0, 0, anchor='nw',image=photo[i,j])
+def show_images(len):
+    root = tkinter.Tk()
+    photo = {}
+    chars = {}
+    for j in range(1,6,2):
+        for i in range(0,10):
+            pic,symbols = get_captcha(len)
+            lbl = Label(root, text=symbols, font=("Arial Bold", 20))
+            lbl.grid(row=i, column=j+1)
+            canvas = tkinter.Canvas(root, width=len*25, height=90)
+            canvas.grid(row=i, column=j)
+            img = Image.open(pic)
+            photo[i,j] = ImageTk.PhotoImage(img)
+            img = canvas.create_image(0, 0, anchor='nw',image=photo[i,j])
+            chars[i,j] = symbols
+    root.mainloop()
+    return photo, chars
 
-
-
-root.mainloop()
+show_images(5)
