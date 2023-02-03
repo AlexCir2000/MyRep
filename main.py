@@ -6,8 +6,8 @@ from PIL import Image, ImageTk
 from Captcha import get_captcha
 
 root1 = tkinter.Tk()
-length = 5
-kol = 150
+length = 25
+kol = 25
 ph1,chars1 = show_images(length,kol)
 for i in range(0,kol):
     pos = (i // 10)
