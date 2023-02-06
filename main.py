@@ -1,4 +1,4 @@
-from images import show_images
+from images import creata_captcha_array
 import images
 import tkinter
 from tkinter import *
@@ -8,7 +8,7 @@ from Captcha import get_captcha
 root1 = tkinter.Tk()
 length = 25
 kol = 25
-ph1,chars1 = show_images(length,kol)
+ph1,chars1 = creata_captcha_array(length, kol)
 for i in range(0,kol):
     pos = (i // 10)
     lbl = Label(root1, text=chars1[i], font=("Arial Bold", 20))
