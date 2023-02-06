@@ -100,7 +100,9 @@ def select_query(kol):
         connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         # Курсор для выполнения операций с базой данных
         cursor = connection.cursor()
-        cursor.execute('SELECT picture, text FROM Table1 WHERE id< ' + str(kol))
+        cursor.execute('''SELECT picture, text FROM Table1 
+                                        ORDER BY RANDOM()
+                                        LIMIT ''' + str(kol))
         result = cursor.fetchall()
     except (Exception, Error) as error:
         print("Ошибка при работе с PostgreSQL", error)
@@ -111,11 +113,12 @@ def select_query(kol):
             print("Соединение с PostgreSQL закрыто")
     return result
 
+
 def show_images(count):
     data = select_query(count)
-    root3 = tkinter.Tk()
+    root3 = tkinter.Toplevel()
     ph = {}
-    for i in range(0, count-1):
+    for i in range(0, count):
         pos = (i // 10)
         lbl = Label(root3, text=data[i][1], font=("Arial Bold", 20))
         lbl.grid(row=i - (10 * pos), column=2 * pos + 1)
@@ -126,4 +129,52 @@ def show_images(count):
         ph[i] = ImageTk.PhotoImage(pic1)
         img = canvas.create_image(0, 0, anchor='nw', image=ph[i])
     root3.mainloop()
-show_images(10)
+
+
+# show_images(5)
+
+
+def get_count():
+    try:
+        # Подключение к существующей базе данных
+        connection = psycopg2.connect(user="postgres",
+                                      # пароль, который указали при установке PostgreSQL
+                                      password="sql",
+                                      host="127.0.0.1",
+                                      port="5433",
+                                      database="test1")
+        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        # Курсор для выполнения операций с базой данных
+        cursor = connection.cursor()
+        cursor.execute('SELECT COUNT(*) FROM Table1')
+        result = cursor.fetchone()
+    except (Exception, Error) as error:
+        print("Ошибка при работе с PostgreSQL", error)
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            print("Соединение с PostgreSQL закрыто")
+    return result[0]
+#get_count()
+
+def clear_table():
+    try:
+        # Подключение к существующей базе данных
+        connection = psycopg2.connect(user="postgres",
+                                      # пароль, который указали при установке PostgreSQL
+                                      password="sql",
+                                      host="127.0.0.1",
+                                      port="5433",
+                                      database="test1")
+        connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        # Курсор для выполнения операций с базой данных
+        cursor = connection.cursor()
+        cursor.execute('DELETE FROM Table1')
+    except (Exception, Error) as error:
+        print("Ошибка при работе с PostgreSQL", error)
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            print("Соединение с PostgreSQL закрыто")
