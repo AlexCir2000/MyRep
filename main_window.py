@@ -46,4 +46,5 @@ btn_clear.grid(column=0, row=2)
 btn_add = Button(window, text='''Add 100 records''', command=push_btn_add)
 btn_add.grid(column=0, row=3)
 
+
 window.mainloop()
